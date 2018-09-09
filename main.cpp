@@ -1,12 +1,13 @@
 #include "globals.h"
 #include "greedy_local.h"
+#include "recursive.h"
 
 int main() {
 
-    GreedyLocal* greedy_local =  new GreedyLocal(8, 8);
+    Recursive* rec = new Recursive(18);
 
-    greedy_local->solve();
-    greedy_local->print();
+    rec->solve();
+    rec->print();
 
     return 0;
 }

@@ -18,4 +18,4 @@ typedef int Tile;
 typedef Tile** Board;
 typedef vector< pair<int, int> > Locations;
 
-#endif  // !GLOBALS_H
+#endif // !GLOBALS_H
