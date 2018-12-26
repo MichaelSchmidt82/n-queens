@@ -1,13 +1,13 @@
-all: main.cpp greedy_local.o
-	g++ --std=c++11 main.cpp greedy_local.o -o greedy_local
+all: main.cpp greedy_local.o genetic.o
+	g++ --std=c++11 main.cpp greedy_local.o genetic.o -o n_queens
 
 greedy_local.o: greedy_local.cpp
 	g++ --std=c++11 -c greedy_local.cpp -o greedy_local.o
 
-genetic.o: n_queens_genetic.cpp individual.cpp
-		g++ --std=c++11 -c n_queens_genetic.cpp individual.cpp -o n_queens_genetic.o
+genetic.o: genetic.cpp
+		g++ --std=c++11 -c genetic.cpp 
 
 
 clean:
 	rm *.o
-	rm greedy_local
+	rm n_queens
