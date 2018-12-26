@@ -1,69 +1,41 @@
 #include "globals.h"
-#include "genetic.hs"
+#include "genetic.h"
 #include "individual.h"
 #include "set_once.h"
 
 
 /* int main */
-int Genetic::sovle(int argc, char * argv[]) {
+void Genetic::solve() {
 
-    /* init */
-    assert(argc == 4 && "Insufficient arguments provided: POPULATION_SIZE, SEED, and N needed.");
-    srand(atoi(argv[2]));
+    init_population();
+    std::sort(control.begin(), control.end(), IndividualPtrCompare());
 
-    /* Constants */
-    const int POP_SIZE = atoi(argv[1]);             // Population size
-    const int N = atoi(argv[3]);                    // Board size
-
-    int pairs = (N * (N - 1)) / 2;
-    Population curr_gen;
-    Population next_gen;
-
-
-    // Total non-paired combonations possible.
-    cout << "Target: " << setw(8) << pairs << endl;
-
-    init_population(curr_gen, POP_SIZE, N);
-    std::sort(curr_gen.begin(), curr_gen.end(), IndividualPtrCompare());
-
-    while (!curr_gen[0]->solution()) {
+    while (!control[0]->solution()) {
         /* Examine and calculate fitness of current generation */
-        fitness(curr_gen);
+        fitness(control);
 
         /* Create & Calculate the fitness of the next generation */
-        next_population(curr_gen, next_gen, POP_SIZE);
-        fitness(next_gen);
-        inbreed_check(curr_gen, next_gen, POP_SIZE);
+        next_population();
+        fitness(experimental);
+        inbreed_check();
     }
-    cout << '\r' << endl << endl;
-    cout << "Solution found:" << endl;
-
-    curr_gen[0]->printer();
-    return 0;
 }
 
-void Genetic::init_population (Population & population, const int POP_SIZE, const int N) {
-    int stop = POP_SIZE - 1;
-    IndividualPtr individual;
-
-    individual = (N == -1) ? new Individual() : new Individual(N);
-    do {
-        population.push_back(individual);
-        individual = new Individual(); //BUG! memory leak possible (make into simple for loop)
-    } while (population.size() < stop);
-    population.push_back(individual);
+void Genetic::init_population () {
+    for (int i = 0; i < pop_size; i++)
+        control.push_back(new Individual(N));
 }
 
-void Genetic::next_population (Population & population, Population & next_gen, const int POP_SIZE) {
+void Genetic::next_population () {
     /* Over reproduce */
-    for (int i = POP_SIZE * 2; i >= 0; i--)
-        next_gen.push_back(reproduce(population));
+    for (int i = pop_size * 2; i >= 0; i--)
+        experimental.push_back(reproduce());
 
     /* Survival of the fittest */
-    std::sort(next_gen.begin(), next_gen.end(), IndividualPtrCompare());
-    for (int i = (POP_SIZE * 2); i > POP_SIZE -1 ; i--) {
-        delete next_gen[i];
-        next_gen.pop_back();
+    std::sort(experimental.begin(), experimental.end(), IndividualPtrCompare());
+    for (int i = (pop_size * 2); i > pop_size -1 ; i--) {
+        delete experimental[i];
+        experimental.pop_back();
     }
 }
 
@@ -78,42 +50,45 @@ void Genetic::fitness(Population & population) {
         start = i->set_fitness(sum, start);
 }
 
-void Genetic::inbreed_check (Population & curr_gen, Population & next_gen, const int POP_SIZE) {
+void Genetic::inbreed_check () {
 
     static int count = 0;
-    bool inbreed = *curr_gen[0] == *curr_gen[POP_SIZE - 1];
+    bool inbreed = *control[0] == *control[pop_size - 1];
 
     if (count == 15) {
-        cout << "Best: " << setw(10) << curr_gen[0]->queen_pairs() << ' ';
+        cout << "Best: " << setw(10) << control[0]->queen_pairs() << ' ';
         count = 0;
     }
 
     if (inbreed) {
-        for (IndividualPtr i : curr_gen)
+        for (IndividualPtr i : control)
             delete i;
-        curr_gen.clear();
-        init_population(curr_gen, POP_SIZE);
+        control.clear();
+        init_population();
     }
     else
-        curr_gen = next_gen;
-    next_gen.clear();
+        control = experimental;
+    experimental.clear();
 
     cout << "\t\r";
     count++;
 }
 
-IndividualPtr Genetic::reproduce (const Population & population) {
-    IndividualPtr mother = population[0];
-    IndividualPtr father = population[0];
+IndividualPtr Genetic::reproduce () {
+    IndividualPtr mother = control[0];
+    IndividualPtr father = control[0];
     IndividualPtr child = nullptr;
 
+    // is this correct? reproduce only on highest fitness ??
+
     double threshold = fRand();
-    for (IndividualPtr i : population)
+    for (IndividualPtr i : control)
         if ( i->fitness() > threshold)
             mother = i;
+            //i.e break??
 
     threshold = fRand();
-    for (IndividualPtr i : population)
+    for (IndividualPtr i : control)
         if ( i->fitness() > threshold)
             father = i;
 

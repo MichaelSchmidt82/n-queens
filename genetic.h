@@ -6,7 +6,7 @@
 class Genetic {
 
 public:
-    Genetic(int _n) : N(_n), board(nullptr) {
+    Genetic(int _n) : N(_n) {
         pairs = N * (N - 1) / 2;
     }
     ~Genetic();
@@ -18,18 +18,16 @@ private:
     int N;
     int pairs;
     int pop_size;
-    Population curr_gen;
-    Population next_gen;
+    Population control;
+    Population experimental;
 
     /* Prototypes */
-    void init_population(Population & population, const int POP_SIZE, const int N = -1);
-    void next_population(Population & population, Population & next_gen, const int POP_SIZE);
-    void fitness(Population & population);
-    void inbreed_check (Population & population, Population & next_gen, const int POP_SIZE);
+    void init_population();
+    void next_population();
+    void fitness(Population &);
+    void inbreed_check ();
     double fRand (double fMin = 0.0, double fMax = 1.0);
-    IndividualPtr reproduce (const Population & population);
-
-
+    IndividualPtr reproduce ();
 };
 
 #endif
