@@ -4,7 +4,6 @@
 /* Includes */
 //#include <algorithm>
 #include <cassert>
-//#include <mutex>
 #include <vector>
 #include <iomanip>
 #include <iostream>
@@ -30,7 +29,7 @@ typedef Tile** Board;
 typedef vector< pair<int, int> > Locations;
 
 typedef int Gene;
-typedef Gene* Sequence;
+typedef vector<Gene> Sequence;
 typedef Individual* IndividualPtr;
 typedef vector<IndividualPtr> Population;
 
