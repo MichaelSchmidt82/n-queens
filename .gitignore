@@ -27,6 +27,7 @@
 *.lib
 
 # Executables
+n_queens
 *.exe
 *.out
 *.app
