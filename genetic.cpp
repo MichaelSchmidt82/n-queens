@@ -1,15 +1,16 @@
 #include "globals.h"
 #include "genetic.h"
-#include "individual.h"
-#include "set_once.h"
 
+Genetic::~Genetic() {
+    for (IndividualPtr i : control)
+        delete i;
 
-/* int main */
+    for (IndividualPtr i : experimental)
+        delete i;
+}
+
 void Genetic::solve() {
-
-    init_population();
     std::sort(control.begin(), control.end(), IndividualPtrCompare());
-
     while (!control[0]->solution()) {
         /* Examine and calculate fitness of current generation */
         fitness(control);
@@ -19,6 +20,10 @@ void Genetic::solve() {
         fitness(experimental);
         inbreed_check();
     }
+}
+
+void Genetic::print() const {
+    control[0]->print();
 }
 
 void Genetic::init_population () {
@@ -92,7 +97,7 @@ IndividualPtr Genetic::reproduce () {
         if ( i->fitness() > threshold)
             father = i;
 
-    child = new Individual(*mother, *father);
+    child = new Individual(N, *mother, *father);
     if (fRand() < 0.01)
         child->mutate();
 
