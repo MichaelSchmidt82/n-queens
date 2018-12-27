@@ -1,18 +1,28 @@
 #include "globals.h"
+#include "queens_base.h"
 #include "greedy_local.h"
 #include "recursive.h"
 #include "genetic.h"
 
 int main() {
 
-    Recursive* rec = new Recursive(18);
-    Genetic* gen = new Genetic(18);
+    QueensBase* recursive = new Recursive(8);
+    QueensBase* genetic = new Genetic(8);
+    QueensBase* greedy = new GreedyLocal(8);
 
-    rec->solve();
-    rec->print();
+    cout << "Recursive:" << endl;
+    recursive->solve();
+    recursive->print();
 
-    gen->solve();
-    gen->print();
+    cout << "Genetic:" << endl;
+    genetic->solve();
+    genetic->print();
+
+    cout << "Greedy Local:" << endl;
+    greedy->solve();
+    greedy->print();
+
+
 
 
 
