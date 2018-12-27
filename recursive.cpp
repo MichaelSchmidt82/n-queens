@@ -11,14 +11,12 @@ Recursive::~Recursive() {
 }
 
 /* public */
-
 void Recursive::solve() {
     if (!solver(0))
 		solvable = false;
 }
 
-
-void Recursive::print() {
+void Recursive::print() const {
 
     if (!solvable) {
         cout << "This board is unsolvable." << endl;

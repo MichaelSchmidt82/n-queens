@@ -2,8 +2,9 @@
 #define RECURSIVE_H
 
 #include "globals.h"
+#include "queens_base.h"
 
-class Recursive {
+class Recursive : public QueensBase {
 
 public:
     Recursive(int _n) : n(_n), board(nullptr) {
@@ -13,7 +14,7 @@ public:
     ~Recursive();
 
     void solve();
-    void print();
+    void print() const;
 
 private:
     int n;
