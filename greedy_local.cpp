@@ -37,7 +37,7 @@ void GreedyLocal::solve() {
 }
 
 
-void GreedyLocal::print() {
+void GreedyLocal::print() const {
     /* Print the board: -1 are queens, everything else is blank */
     for (int r = 0; r < n; r++) {
         for (int c = 0; c < n; c++)

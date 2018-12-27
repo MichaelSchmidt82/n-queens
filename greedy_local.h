@@ -2,18 +2,18 @@
 #define GREEDY_LOCAL_H
 
 #include "globals.h"
+#include "queens_base.h"
 
-class GreedyLocal {
+class GreedyLocal : public QueensBase {
 
 public:
-    GreedyLocal(int _n, int seed) : n(_n), board(nullptr) {
+    GreedyLocal(int _n) : n(_n), board(nullptr) {
         initialize();
-        srand(seed);
     };
     ~GreedyLocal();
 
     void solve();
-    void print();
+    void print() const;
 
 
 private:
