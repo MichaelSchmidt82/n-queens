@@ -10,7 +10,7 @@ class Genetic : public QueensBase {
 public:
     Genetic(int _n) : N(_n) {
         pairs = N * (N - 1) / 2;
-        pop_size = 1000;
+        pop_size = 500;
 
         init_population();
     }
@@ -23,8 +23,8 @@ private:
     const int N;
     int pairs;
     int pop_size;
-    Population control;
-    Population experimental;
+    Population curr_gen;
+    Population next_gen;
 
     /* Prototypes */
     void init_population();
@@ -32,6 +32,6 @@ private:
     void fitness(Population &);
     void inbreed_check ();
     double fRand (double fMin = 0.0, double fMax = 1.0);
-    IndividualPtr reproduce ();
+    IndividualPtr reproduce(const Population &);
 };
 #endif
