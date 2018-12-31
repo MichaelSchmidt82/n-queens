@@ -4,11 +4,16 @@
 #include "recursive.h"
 #include "genetic.h"
 
-int main() {
+int main(int argc, char* argv[]) {
 
-    QueensBase* recursive = new Recursive(8);
-    QueensBase* genetic = new Genetic(8);
-    QueensBase* greedy = new GreedyLocal(8);
+    assert(argc == 3 && "supply SEED and N");
+    srand(atoi(argv[1]));
+
+    int N = atoi(argv[2]);
+
+    QueensBase* recursive = new Recursive(N);
+    QueensBase* genetic = new Genetic(N);
+    QueensBase* greedy = new GreedyLocal(N);
 
     cout << "Recursive:" << endl;
     recursive->solve();
