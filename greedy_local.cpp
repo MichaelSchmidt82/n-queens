@@ -44,7 +44,7 @@ void GreedyLocal::print() const {
             if (board[r][c] == -1)
                 cout <<"Q ";
             else
-                cout << "- ";
+                cout << ". ";
         cout << endl;
     }
 }

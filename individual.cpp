@@ -3,14 +3,14 @@
 
 /* NOTE: this constructor may only be invoked once to set the static class variable N. */
 Individual::Individual(int _n) : N(_n) {
-    n_pairs = (N * (N - 1)) / 2;
+    goal = (N * (N - 1)) / 2;
 
     for (int i = 0; i < N; i++)
         sequence.push_back(rand() % N);
 
-    m_NonAttackingPairs = -1;
-    m_Fitness = -1;
-    queen_pairs();
+    m_non_attacking = -1;
+    m_fitness = -1;
+    non_attacking();
 }
 
 Individual::Individual(int _n, const Sequence & s) : N(_n) {
@@ -26,7 +26,7 @@ Individual::Individual(int _n, const Individual & mother, const Individual & fat
     int cutoff = rand() % N;
     bool order = rand() % 2;
 
-    sequence = vector<Gene>(N);
+    sequence = Sequence(N);
 
     if (cutoff == 0)
         cutoff++;
@@ -45,9 +45,9 @@ Individual::Individual(int _n, const Individual & mother, const Individual & fat
             sequence[i] = mother[i];
     }
 
-    m_NonAttackingPairs = -1;
-    m_Fitness = -1;
-    queen_pairs();
+    m_non_attacking = -1;
+    m_fitness = -1;
+    non_attacking();
 }
 
 Individual::~Individual() {
@@ -55,7 +55,7 @@ Individual::~Individual() {
 }
 
 bool Individual::operator> (const Individual & rhs) const {
-    return this->queen_pairs() > rhs.queen_pairs();;
+    return this->non_attacking() > rhs.non_attacking();
 }
 
 bool Individual::operator== (const Individual & rhs) const {
@@ -77,35 +77,35 @@ int Individual::operator[] (int i) const {
     return -1;
 }
 
-int Individual::queen_pairs() const {
-    int collisions = 0;
+int Individual::non_attacking() const {
+    int attacks = 0;
 
-    if (m_NonAttackingPairs == -1) {
+    if (m_non_attacking == -1) {
         /* Down */
         for (int g = N - 1; g > 0; g--)
             for (int c = g - 1; c >= 0; c--)
                 if (sequence[g] == sequence[c])
-                    collisions++;
+                    attacks++;
         /* Down & Left */
         for (int row = 1; row < N; row++)
             for (int col = sequence[row - 1] - 1, i = row; i < N && col >= 0; i++, col--)
                 if (sequence[i] == col)
-                    collisions++;
+                    attacks++;
         /* Down & Right */
         for (int row = 1; row < N; row++)
             for (int col = sequence[row - 1] + 1, i = row; i < N && col < N; i++, col++)
                 if (sequence[i] == col)
-                    collisions++;
+                    attacks++;
 
-        m_NonAttackingPairs = n_pairs - collisions;
+        m_non_attacking = goal - attacks;
     }
-    return m_NonAttackingPairs;
+    return m_non_attacking;
 }
 
 double Individual::set_fitness(double sum, double start) {
-    if (m_Fitness == -1)
-        m_Fitness = start - (double(queen_pairs()) / sum);
-    return m_Fitness;
+    if (m_fitness == -1)
+        m_fitness = start - (double(non_attacking()) / sum);
+    return m_fitness;
 }
 
 void Individual::print() const {
@@ -114,7 +114,7 @@ void Individual::print() const {
             if (sequence[r] == c)
                 cout << "Q ";
             else
-                cout << "- ";
+                cout << ". ";
         cout << endl;
     }
 }
@@ -122,7 +122,7 @@ void Individual::print() const {
 void Individual::mutate() {
     sequence[rand() % N] = rand() % N;
 
-    m_NonAttackingPairs = -1;
-    m_Fitness = -1;
-    queen_pairs();
+    m_non_attacking = -1;
+    m_fitness = -1;
+    non_attacking();
 }

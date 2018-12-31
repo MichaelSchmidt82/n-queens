@@ -26,7 +26,7 @@ void Recursive::print() const {
 	for (int r = 0; r < n; r++) {
 		for (int c = 0; c < n; c++)
 			if (board[r][c] == 0)
-                cout << "- ";
+                cout << ". ";
             else
                 cout << "Q ";
 		cout << endl;
@@ -68,7 +68,6 @@ bool Recursive::checkSafe(int row, int col) {
 
 	return true;
 }
-
 
 bool Recursive::solver(int col) {
 	/* Base case */

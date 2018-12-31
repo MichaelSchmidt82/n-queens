@@ -13,18 +13,17 @@ int main() {
     cout << "Recursive:" << endl;
     recursive->solve();
     recursive->print();
-
-    cout << "Genetic:" << endl;
-    genetic->solve();
-    genetic->print();
+    cout << endl;
 
     cout << "Greedy Local:" << endl;
     greedy->solve();
     greedy->print();
+    cout << endl;
 
-
-
-
+    cout << "Genetic:" << endl;
+    genetic->solve();
+    genetic->print();
+    cout << endl;
 
     return 0;
 }

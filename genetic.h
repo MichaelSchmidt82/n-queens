@@ -10,7 +10,7 @@ class Genetic : public QueensBase {
 public:
     Genetic(int _n) : N(_n) {
         pairs = N * (N - 1) / 2;
-        pop_size = 500;
+        pop_size = 1000;
 
         init_population();
     }

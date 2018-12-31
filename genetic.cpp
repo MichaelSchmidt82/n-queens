@@ -49,7 +49,7 @@ void Genetic::fitness(Population & population) {
     int sum = 0;
 
     for (IndividualPtr i : population)
-        sum += i->queen_pairs();
+        sum += i->non_attacking();
 
     for (IndividualPtr i : population)
         start = i->set_fitness(sum, start);
@@ -57,13 +57,7 @@ void Genetic::fitness(Population & population) {
 
 void Genetic::inbreed_check () {
 
-    static int count = 0;
     bool inbreed = *control[0] == *control[pop_size - 1];
-
-    if (count == 15) {
-        cout << "Best: " << setw(10) << control[0]->queen_pairs() << ' ';
-        count = 0;
-    }
 
     if (inbreed) {
         for (IndividualPtr i : control)
@@ -74,9 +68,6 @@ void Genetic::inbreed_check () {
     else
         control = experimental;
     experimental.clear();
-
-    cout << "\t\r";
-    count++;
 }
 
 IndividualPtr Genetic::reproduce () {
@@ -88,17 +79,22 @@ IndividualPtr Genetic::reproduce () {
 
     double threshold = fRand();
     for (IndividualPtr i : control)
-        if ( i->fitness() > threshold)
+        if ( i->fitness() > threshold) {
             mother = i;
-            //i.e break??
+            break;
+        }
 
     threshold = fRand();
     for (IndividualPtr i : control)
-        if ( i->fitness() > threshold)
+        if ( i->fitness() > threshold) {
             father = i;
+            break;
+        }
+
 
     child = new Individual(N, *mother, *father);
-    if (fRand() < 0.01)
+
+    if (fRand() < 0.03)
         child->mutate();
 
     return child;
