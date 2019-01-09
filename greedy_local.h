@@ -7,29 +7,29 @@
 class GreedyLocal : public QueensBase {
 
 public:
-    GreedyLocal(int _n) : n(_n), board(nullptr) {
-        initialize();
-    };
-    ~GreedyLocal();
+	GreedyLocal(int _n) : N(_n), board(nullptr) {
+		initialize();
+	};
+	~GreedyLocal();
 
-    void solve();
-    void print() const;
+	void solve();
+	void print() const;
 
 
 private:
-    /* variables */
-    int n;
-    Board board;
-    Locations queens;
-    Locations minimums;
+	/* variables */
+	int N;
+	Board board;
+	Locations queens;
+	Locations minimums;
 
-    void initialize();
-    void update();
+	void initialize();
+	void update();
 
-    int findLowest();
-    void placeLowest();
+	int findLowest();
+	void placeLowest();
 
-    int heuristicFunction(pair<int, int>);
-    bool is_solution();
+	int heuristicFunction(pair<int, int>);
+	bool is_solution();
 };
 #endif
