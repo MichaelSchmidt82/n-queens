@@ -2,9 +2,8 @@
 #define GLOBALS_H
 
 /* Includes */
-//#include <algorithm>
+#include <algorithm>
 #include <cassert>
-#include <vector>
 #include <iomanip>
 #include <iostream>
 #include <utility>
@@ -15,9 +14,11 @@ using std::atoi;
 using std::cout;
 using std::endl;
 using std::make_pair;
+using std::move;
 using std::pair;
 using std::setprecision;
 using std::setw;
+using std::sort;
 using std::vector;
 
 /* Forward Declarations */
