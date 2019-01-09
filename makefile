@@ -7,7 +7,7 @@ recursive.o: recursive.cpp
 greedy_local.o: greedy_local.cpp
 	g++ --std=c++11 -c greedy_local.cpp -o greedy_local.o
 
-genetic.o, individual.o: genetic.cpp
+genetic.o, individual.o: genetic.cpp individual.cpp
 	g++ --std=c++11 -c genetic.cpp individual.cpp
 
 clean:
