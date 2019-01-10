@@ -25,4 +25,5 @@ the usual:  `make`
 Currently, only depth first search has been implemented in python.
 
 #### Usage:
-`python3 depth_first.py`
+`python3 depth_first.py`  
+`python3 greedy_local.py`
