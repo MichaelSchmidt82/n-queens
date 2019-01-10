@@ -10,7 +10,8 @@ The classic problem of placing "queen" chess pieces on an N×N board such that n
 
 - Python  
     - Depth First Search
-    - Greedy Local Search (under development)
+    - Greedy Local Search
+    - Genetic Search (under development)
 
 ## C++
 Currently, genetic search performs slower than both depth first and greedy local search algorithms.
