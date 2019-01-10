@@ -5,6 +5,7 @@ The classic problem of placing "queen" chess pieces on an N×N board such that n
     - Depth First Search
     - Greedy Local Search
     - Genetic Search
+    - Simulated Annealing (under RESEARCH)
 
 
 - Python  
