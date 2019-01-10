@@ -33,7 +33,7 @@ class GreedyLocal:
         tries = int(self.N / 2)
         curr = self.find_lowest()
 
-        while True:
+        while not self.is_solution():
             self.place_lowest()
             self.update()
 
@@ -46,9 +46,8 @@ class GreedyLocal:
             if not tries:
                 self.initialize()
                 tries = int(self.N / 2)
+                curr = self.find_lowest()
 
-            #if self.is_solution():
-            break
 
     def initialize(self):
         """
