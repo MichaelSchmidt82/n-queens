@@ -2,13 +2,14 @@ import random
 import numpy as np
 
 class GreedyLocal:
+    """
 
+    """
     def __init__(self, N):
         """
 
         """
         self.N = N
-
         self.initialize()
 
     def __str__(self):
