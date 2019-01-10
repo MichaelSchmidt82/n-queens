@@ -4,19 +4,51 @@ import numpy as np
 class GreedyLocal:
 
     def __init__(self, N):
+        """
+
+        """
         self.N = N
 
         self.initialize()
 
     def __str__(self):
-        pass
+        s = ''
 
-    def solve():
+        for r in range(self.N):
+            row = 'Q' if self.board[r][0] == -1 else '.'
+            for c in range(1, self.N):
+                if self.board[r][c] != -1:
+                    row = '{} {}'.format(row, '.')
+                else:
+                    row = '{} {}'.format(row, 'Q')
+            s = '{}{}\n'.format(s, row)
+
+        s = s[:-1]
+        return s
+
+    def solve(self):
         """
 
-
         """
-        pass
+        tries = int(self.N / 2)
+        curr = self.find_lowest()
+
+        while True:
+            self.place_lowest()
+            self.update()
+
+            last = curr
+            curr = self.find_lowest()
+
+            if curr >= last:
+                tries -= 1
+
+            if not tries:
+                self.initialize()
+                tries = int(self.N / 2)
+
+            #if self.is_solution():
+            break
 
     def initialize(self):
         """
@@ -27,9 +59,9 @@ class GreedyLocal:
         self.minimums = []
 
         for r in range(self.N):
-            c = random.randint(0, N - 1)
+            c = random.randint(0, self.N - 1)
             self.board[r][c] = -1
-            queens.appned(tuple(r, c))
+            self.queens.append([r, c])
 
         self.update()
 
@@ -39,16 +71,16 @@ class GreedyLocal:
         """
         count = 0
 
-        for r in range(N):
-            self.board[queens[r][0]][queens[r][1]] = 0
-            for c in range(N):
+        for r in range(self.N):
+            self.board[self.queens[r][0]][self.queens[r][1]] = 0
+            for c in range(self.N):
                 self.board[r][c] = -1
-                for k in range(N):
+                for k in range(self.N):
                     if k != r:
-                        count += self.heuristic(queens[k])
+                        count += self.heuristic(self.queens[k])
 
-                count += self.heuristic(tuple(r, c))
-                board[r][c] = -1 if (queens[r][0] == r && queens[r][1] == c) else count
+                count += self.heuristic([r, c])
+                self.board[r][c] = -1 if (self.queens[r][0] == r and self.queens[r][1] == c) else count
                 count = 0
 
     def find_lowest(self):
@@ -66,7 +98,7 @@ class GreedyLocal:
         for r in range(self.N):
             for c in range(self.N):
                 if self.board[r][c] == min:
-                    self.minimums.append(tuple(r, c))
+                    self.minimums.append([r, c])
 
         return min
 
@@ -74,13 +106,14 @@ class GreedyLocal:
         """
 
         """
+
         move = random.randint(0, len(self.minimums) - 1)
-        row, col = minimum[move][0], minimum[move][1]
+        row, col = self.minimums[move][0], self.minimums[move][1]
 
         for c in range(self.N):
             if self.board[row][c] == -1:
                 self.board[row][col] = -1
-                queens[row][0], queens[row][1] = row, col
+                self.queens[row][0], self.queens[row][1] = row, col
 
                 self.board[row][c] = 0
                 break
@@ -90,11 +123,11 @@ class GreedyLocal:
 
         """
         count = 0
-        for r, c in zip(range(queen[0]+1, self.N), range(queen[1]+1, self.N))):
+        for r, c in zip(range(queen[0]+1, self.N), range(queen[1]+1, self.N)):
             if self.board[r][c] == -1:
                 count += 1
 
-        for r, c in zip(range(queen[0]+1, self.N), range(queen[1]-1, -1, -1))):
+        for r, c in zip(range(queen[0]+1, self.N), range(queen[1]-1, -1, -1)):
             if self.board[r][c] == -1:
                 count += 1
 
@@ -113,3 +146,8 @@ class GreedyLocal:
                 return False
 
         return True
+
+if __name__ == '__main__':
+    gl = GreedyLocal(8)
+    gl.solve()
+    print(gl)
