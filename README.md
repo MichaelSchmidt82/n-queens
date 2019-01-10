@@ -9,7 +9,8 @@ The classic problem of placing "queen" chess pieces on an N×N board such that n
 
 - Python  
     - Depth First Search
-    - Greedy Local Search (under development)
+    - Greedy Local Search
+    - Genetic Search (under development)
 
 ## C++
 Currently, genetic search performs slower than both depth first and greedy local search algorithms.
@@ -22,7 +23,7 @@ the usual:  `make`
 
 
 ## Python:
-Currently, only depth first search has been implemented in python.
+Currently, no main driver exists for Python classes.  A module will be created in the future with a driver script.
 
 #### Usage:
 `python3 depth_first.py`  
